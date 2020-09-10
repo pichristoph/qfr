@@ -28,12 +28,15 @@ namespace qc {
 		// General constructor
 		NonUnitaryOperation(unsigned short nq, const std::vector<unsigned short>& qubitRegister, OpType op = Reset);
 
+
+
 		dd::Edge getDD(std::unique_ptr<dd::Package>& dd, std::array<short, MAX_QUBITS>& line) const override;
 		dd::Edge getInverseDD(std::unique_ptr<dd::Package>& dd, std::array<short, MAX_QUBITS>& line) const override;
 		dd::Edge getDD(std::unique_ptr<dd::Package>& dd, std::array<short, MAX_QUBITS>& line, std::map<unsigned short, unsigned short>&) const override;
 		dd::Edge getInverseDD(std::unique_ptr<dd::Package>& dd, std::array<short, MAX_QUBITS>& line, std::map<unsigned short, unsigned short>&) const override {
 			return getInverseDD(dd, line);
 		}
+        dd::Edge getDD(std::unique_ptr<dd::Package> &dd, dd::Edge root_edge, double probForCollapsingToOne, std::array<short, MAX_QUBITS>& line) const;
 
 		bool isUnitary() const override {
 			return false;

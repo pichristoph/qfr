@@ -27,6 +27,8 @@ namespace qc {
 	constexpr dd::ComplexValue complex_miSQRT_2    = { 0, -dd::SQRT_2 };
 
 	// Gate matrices
+    constexpr GateMatrix Meas0({    complex_one,        complex_zero,      complex_zero,       complex_zero });
+    constexpr GateMatrix Meas1X({   complex_zero,       complex_one,       complex_zero,       complex_zero});
 	constexpr GateMatrix Imat({    complex_one,        complex_zero,       complex_zero,       complex_one });
 	constexpr GateMatrix Hmat({    complex_SQRT_2,     complex_SQRT_2,     complex_SQRT_2,     complex_mSQRT_2 });
 	constexpr GateMatrix Xmat({    complex_zero,       complex_one,        complex_one,        complex_zero });

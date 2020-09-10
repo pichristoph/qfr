@@ -3,6 +3,7 @@
  * See file README.md or go to http://iic.jku.at/eda/research/quantum/ for more information.
  */
 
+#include <operations/StandardOperation.hpp>
 #include "operations/NonUnitaryOperation.hpp"
 
 namespace qc {
@@ -258,4 +259,15 @@ namespace qc {
 //		}
 //		return false;
 	}
+
+    dd::Edge NonUnitaryOperation::getDD(std::unique_ptr<dd::Package> &dd, dd::Edge root_edge, double probForCollapsingToOne, std::array<short, MAX_QUBITS> &line) const {
+	    auto zeroDD = dd->makeGateDD(qc::Meas0, nqubits, line);
+	    auto tmp = dd->multiply(zeroDD,root_edge);
+	    fp root_edge_weight = dd::ComplexNumbers::mag2(tmp.w);
+        if(root_edge_weight > probForCollapsingToOne){
+            return zeroDD;
+        } else {
+            return dd->makeGateDD(qc::Meas1X, nqubits, line);
+        }
+    }
 }
