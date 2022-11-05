@@ -16,13 +16,22 @@ void Q3ShorEcc::initMappedCircuit() {
     statistics.nInputQubits         = qc.getNqubits();
     statistics.nInputClassicalBits  = (int)qc.getNcbits();
     statistics.nOutputQubits        = qc.getNqubits() * ecc.nRedundantQubits + ecc.nCorrectingBits;
-    statistics.nOutputClassicalBits = statistics.nInputClassicalBits + ecc.nCorrectingBits;
+    statistics.nOutputClassicalBits = qc.getNcbits() * ecc.nRedundantQubits + ecc.nCorrectingBits;
     qcMapped.addQubitRegister(statistics.nOutputQubits);
-    //    qcMapped.addClassicalRegister(statistics.nInputClassicalBits);
+
     auto cRegs = qc.getCregs();
+    //first iteration/index==0: use original regName
     for (auto const& [regName, regBits]: cRegs) {
         qcMapped.addClassicalRegister(regBits.second, regName);
     }
+    //start loop with 1 (second iteration)
+    for (int i = 1; i < ecc.nRedundantQubits; i++) {
+        std::string nameAppendix = "[" + std::to_string(i) + "]";
+        for (auto const& [regName, regBits]: cRegs) {
+            qcMapped.addClassicalRegister(regBits.second, regName + nameAppendix);
+        }
+    }
+
     qcMapped.addClassicalRegister(2, "qecc");
 }
 
@@ -47,7 +56,7 @@ void Q3ShorEcc::measureAndCorrect() {
     }
     const int  nQubits  = qc.getNqubits();
     const auto ancStart = static_cast<dd::Qubit>(nQubits * ecc.nRedundantQubits); //measure start (index of first ancilla qubit)
-    const auto clStart  = static_cast<dd::Qubit>(statistics.nInputClassicalBits);
+    const auto clStart  = static_cast<dd::Qubit>(statistics.nInputClassicalBits * ecc.nRedundantQubits);
     for (int i = 0; i < nQubits; i++) {
         qcMapped.reset(ancStart);
         qcMapped.reset(static_cast<dd::Qubit>(ancStart + 1));
@@ -87,16 +96,20 @@ void Q3ShorEcc::writeDecoding() {
         writeX(dd::Qubit(i + nQubits), ctrl);
         writeX(dd::Qubit(i + 2 * nQubits), ctrl);
         writeToffoli(i, i + nQubits, true, i + 2 * nQubits, true);
+        qcMapped.measure(i, i);
     }
     isDecoded = true;
 }
 
 void Q3ShorEcc::mapGate(const std::unique_ptr<qc::Operation>& gate, qc::QuantumComputation& qc) {
-    if (isDecoded && gate->getType() != qc::Measure && gate->getType() != qc::H) {
+    if (isDecoded && gate->getType() != qc::H) {
         writeEncoding();
     }
-    const int                nQubits = (int)qc.getNqubits();
-    qc::NonUnitaryOperation* measureGate;
+    const int                            nQubits            = (int)qc.getNqubits();
+    qc::NonUnitaryOperation*             measureGate        = nullptr;
+    qc::ClassicControlledOperation*      classicControlGate = nullptr;
+    qc::StandardOperation*               standardOperation  = nullptr;
+    std::pair<dd::Qubit, dd::QubitCount> originalCReg;
     switch (gate->getType()) {
         case qc::I:
             break;
@@ -182,13 +195,29 @@ void Q3ShorEcc::mapGate(const std::unique_ptr<qc::Operation>& gate, qc::QuantumC
             }
             break;
         case qc::Measure:
-            if (!isDecoded) {
-                measureAndCorrect();
-                writeDecoding();
-            }
             measureGate = (qc::NonUnitaryOperation*)gate.get();
             for (std::size_t j = 0; j < measureGate->getNclassics(); j++) {
-                qcMapped.measure(measureGate->getTargets()[j], measureGate->getClassics()[j]);
+                for (int i = 0; i < ecc.nRedundantQubits; i++) {
+                    qcMapped.measure(measureGate->getTargets()[j + i * nQubits], measureGate->getClassics()[j + i * qc.getNcbits()]);
+                }
+            }
+
+            break;
+        case qc::ClassicControlled:
+            classicControlGate = (qc::ClassicControlledOperation*)gate.get();
+            originalCReg       = classicControlGate->getControlRegister();
+            for (int i = 0; i < 3; i++) {
+                qc::Operation* operation = classicControlGate->getOperation();
+                if (typeid(*operation) != typeid(qc::StandardOperation)) {
+                    gateNotAvailableError(gate);
+                }
+                standardOperation = dynamic_cast<qc::StandardOperation*>(operation);
+                if (standardOperation->getType() != qc::X && standardOperation->getType() != qc::Z) {
+                    gateNotAvailableError(gate);
+                }
+                const std::pair<dd::Qubit, dd::QubitCount> newCReg      = std::make_pair(originalCReg.first * i + qc.getNcbits(), originalCReg.second);
+                std::unique_ptr<qc::Operation>             newOperation = std::make_unique<qc::StandardOperation>(qcMapped.getNqubits(), standardOperation->getTargets()[0], standardOperation->getType());
+                qcMapped.emplace_back<qc::ClassicControlledOperation>(newOperation, newCReg, classicControlGate->getExpectedValue());
             }
             break;
         case qc::V:
@@ -206,7 +235,6 @@ void Q3ShorEcc::mapGate(const std::unique_ptr<qc::Operation>& gate, qc::QuantumC
         case qc::Peres:
         case qc::Peresdag:
         case qc::Compound:
-        case qc::ClassicControlled:
         default:
             gateNotAvailableError(gate);
             break;
