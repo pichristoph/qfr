@@ -26,7 +26,7 @@ void Q3ShorEcc::initMappedCircuit() {
     }
     //start loop with 1 (second iteration)
     for (int i = 1; i < ecc.nRedundantQubits; i++) {
-        std::string nameAppendix = "[" + std::to_string(i) + "]";
+        std::string nameAppendix = "_" + std::to_string(i);
         for (auto const& [regName, regBits]: cRegs) {
             qcMapped.addClassicalRegister(regBits.second, regName + nameAppendix);
         }
@@ -198,10 +198,9 @@ void Q3ShorEcc::mapGate(const std::unique_ptr<qc::Operation>& gate, qc::QuantumC
             measureGate = (qc::NonUnitaryOperation*)gate.get();
             for (std::size_t j = 0; j < measureGate->getNclassics(); j++) {
                 for (int i = 0; i < ecc.nRedundantQubits; i++) {
-                    qcMapped.measure(measureGate->getTargets()[j + i * nQubits], measureGate->getClassics()[j + i * qc.getNcbits()]);
+                    qcMapped.measure(measureGate->getTargets()[j] + i * nQubits, measureGate->getClassics()[j] + i * qc.getNcbits());
                 }
             }
-
             break;
         case qc::ClassicControlled:
             classicControlGate = (qc::ClassicControlledOperation*)gate.get();
