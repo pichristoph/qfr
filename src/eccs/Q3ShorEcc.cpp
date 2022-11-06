@@ -21,6 +21,7 @@ void Q3ShorEcc::initMappedCircuit() {
 
     auto cRegs = qc.getCregs();
     //first iteration/index==0: use original regName
+    //TODO error reason for multiple ECC application!
     for (auto const& [regName, regBits]: cRegs) {
         qcMapped.addClassicalRegister(regBits.second, regName);
     }
