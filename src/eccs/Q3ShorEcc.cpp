@@ -220,6 +220,13 @@ void Q3ShorEcc::mapGate(const std::unique_ptr<qc::Operation>& gate, qc::QuantumC
                 qcMapped.emplace_back<qc::ClassicControlledOperation>(newOperation, newCReg, classicControlGate->getExpectedValue());
             }
             break;
+        case qc::Reset:
+            for (std::size_t i = 0; i < gate->getNtargets(); i++) {
+                qcMapped.reset(gate->getTargets()[i]);
+                qcMapped.reset(gate->getTargets()[i] + nQubits);
+                qcMapped.reset(gate->getTargets()[i] + 2 * nQubits);
+            }
+            break;
         case qc::V:
         case qc::Vdag:
         case qc::U3:
