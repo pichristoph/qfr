@@ -34,6 +34,3 @@ package_add_test(${PROJECT_NAME}_test_ecc ${PROJECT_NAME}_ecc unittests/test_ecc
 target_link_libraries(${PROJECT_NAME}_test_ecc PRIVATE ${PROJECT_NAME}_dd)
 
 gtest_discover_tests(${PROJECT_NAME}_test_ecc DISCOVERY_TIMEOUT 1500)
-
-#gtest_discover_tests(${PROJECT_NAME}_test_ecc PROPERTIES TIMEOUT 1500)
-#set_tests_properties(${PROJECT_NAME}_test_ecc PROPERTIES TIMEOUT 1500)
