@@ -17,7 +17,7 @@ jobs:
   analyze:
     name: Analyze ${{ matrix.language }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+
     permissions:
       security-events: write
 
@@ -44,6 +44,7 @@ jobs:
       - if: matrix.language == 'cpp'
         name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_QFR_TESTS=ON -DBINDINGS=ON
+        timeout-minutes: 20
 
       - if: matrix.language == 'cpp'
         name: Build
