@@ -22,7 +22,6 @@ jobs:
   cpp-tests:
     name: Tests ${{ matrix.config.os }}
     runs-on: ${{ matrix.config.os }}
-    timeoutInMinutes: 20
     strategy:
       fail-fast: false
       matrix:
