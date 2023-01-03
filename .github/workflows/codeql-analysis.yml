@@ -14,7 +14,7 @@ env:
   CMAKE_BUILD_PARALLEL_LEVEL: 3
 
 jobs:
-  timeout-minutes: 5
+  timeout-minutes: 20
   analyze:
     name: Analyze ${{ matrix.language }}
     runs-on: ubuntu-latest
