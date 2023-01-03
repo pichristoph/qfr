@@ -36,15 +36,15 @@ jobs:
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
+        timeout-minutes: 60
         with:
           languages: ${{ matrix.language }}
           config-file: .github/codeql-config.yml
-          debug: true
 
       - if: matrix.language == 'cpp'
         name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_QFR_TESTS=ON -DBINDINGS=ON
-        timeout-minutes: 20
+        timeout-minutes: 60
 
       - if: matrix.language == 'cpp'
         name: Build
