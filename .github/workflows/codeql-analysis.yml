@@ -44,11 +44,11 @@ jobs:
       - if: matrix.language == 'cpp'
         name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_QFR_TESTS=ON -DBINDINGS=ON
-        timeout-minutes: 60
 
       - if: matrix.language == 'cpp'
         name: Build
         run: cmake --build build
+        timeout-minutes: 60
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
