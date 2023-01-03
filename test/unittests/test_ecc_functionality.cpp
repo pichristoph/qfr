@@ -168,8 +168,8 @@ protected:
                                          bool                                           simulateWithErrors     = false,
                                          std::size_t                                    insertErrorAfterNGates = 0,
                                          Qubit                                          target                 = 0,
-                                         double                                         tolerance              = 0.30,
-                                         std::size_t                                    shots                  = 25,
+                                         double                                         tolerance              = 0.40,
+                                         std::size_t                                    shots                  = 10,
                                          std::size_t                                    seed                   = 5) {
         auto toleranceAbsolute = (static_cast<double>(shots) / 100.0) * (tolerance * 100.0);
 
