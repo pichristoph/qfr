@@ -17,6 +17,7 @@ jobs:
   analyze:
     name: Analyze ${{ matrix.language }}
     runs-on: ubuntu-latest
+    timeoutInMinutes: 20
     permissions:
       security-events: write
 
