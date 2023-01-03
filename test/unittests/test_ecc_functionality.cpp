@@ -223,125 +223,125 @@ TEST_F(DDECCFunctionalityTest, testIdEcc) {
     EXPECT_TRUE(testCircuits<ecc::Id>(circuitsExpectToPass));
 }
 
-//TEST_F(DDECCFunctionalityTest, testQ3Shor) {
-//    size_t insertNoiseAfterNQubits = 4;
-//
-//    std::vector<TestCase> const circuitsExpectToPass = {
-//            {createIdentityCircuit, true, insertNoiseAfterNQubits},
-//            {createXCircuit, true, insertNoiseAfterNQubits},
-//            {createCXCircuit, true, insertNoiseAfterNQubits * 2},
-//            {createCYCircuit, true, insertNoiseAfterNQubits * 2},
-//    };
-//    std::vector<TestCase> const circuitsExpectToFail = {
-//            {createYCircuit, true, insertNoiseAfterNQubits},
-//            {createHCircuit, true, insertNoiseAfterNQubits},
-//            {createHTCircuit, true, insertNoiseAfterNQubits},
-//            {createCZCircuit, true, insertNoiseAfterNQubits},
-//            {createHZCircuit, true, insertNoiseAfterNQubits},
-//    };
-//    EXPECT_TRUE(testCircuits<ecc::Q3Shor>(circuitsExpectToPass));
-//    EXPECT_ANY_THROW(testCircuits<ecc::Q3Shor>(circuitsExpectToFail));
-//}
-//
-//TEST_F(DDECCFunctionalityTest, testQ5LaflammeEcc) {
-//    size_t insertNoiseAfterNQubits = 61;
-//
-//    std::vector<TestCase> const circuitsExpectToPass = {
-//            {createIdentityCircuit, true, insertNoiseAfterNQubits},
-//            {createXCircuit, true, insertNoiseAfterNQubits},
-//    };
-//    std::vector<TestCase> const circuitsExpectToFail = {
-//            {createYCircuit, true, insertNoiseAfterNQubits},
-//            {createHCircuit, true, insertNoiseAfterNQubits},
-//            {createHTCircuit, true, insertNoiseAfterNQubits},
-//            {createHZCircuit, true, insertNoiseAfterNQubits},
-//            {createCXCircuit, true, insertNoiseAfterNQubits},
-//            {createCZCircuit, true, insertNoiseAfterNQubits},
-//            {createCYCircuit, true, insertNoiseAfterNQubits},
-//    };
-//    EXPECT_TRUE(testCircuits<ecc::Q5Laflamme>(circuitsExpectToPass));
-//    EXPECT_ANY_THROW(testCircuits<ecc::Q5Laflamme>(circuitsExpectToFail));
-//}
-//
-//TEST_F(DDECCFunctionalityTest, testQ7Steane) {
-//    size_t insertNoiseAfterNQubits = 57;
-//
-//    std::vector<TestCase> const circuitsExpectToPass = {
-//            {createIdentityCircuit, true, insertNoiseAfterNQubits},
-//            {createXCircuit, true, insertNoiseAfterNQubits},
-//            {createYCircuit, true, insertNoiseAfterNQubits},
-//            {createHCircuit, true, insertNoiseAfterNQubits},
-//            {createHTCircuit, true, insertNoiseAfterNQubits},
-//            {createHZCircuit, true, insertNoiseAfterNQubits},
-//            {createCXCircuit, true, insertNoiseAfterNQubits * 2},
-//            {createCZCircuit, true, insertNoiseAfterNQubits * 2},
-//            {createCYCircuit, true, insertNoiseAfterNQubits * 2},
-//    };
-//    EXPECT_TRUE(testCircuits<ecc::Q7Steane>(circuitsExpectToPass));
-//}
-//
-//TEST_F(DDECCFunctionalityTest, testQ9ShorEcc) {
-//    size_t insertNoiseAfterNQubits = 7;
-//
-//    std::vector<TestCase> const circuitsExpectToPass = {
-//            {createIdentityCircuit, true, insertNoiseAfterNQubits},
-//            {createXCircuit, true, insertNoiseAfterNQubits},
-//            {createCXCircuit, true, insertNoiseAfterNQubits * 2},
-//            {createCYCircuit, true, insertNoiseAfterNQubits * 2},
-//    };
-//
-//    std::vector<TestCase> const circuitsExpectToFail = {
-//            {createYCircuit, true, insertNoiseAfterNQubits},
-//            {createHCircuit, true, insertNoiseAfterNQubits},
-//            {createHTCircuit, true, insertNoiseAfterNQubits},
-//            {createHZCircuit, true, insertNoiseAfterNQubits},
-//            {createCZCircuit, true, insertNoiseAfterNQubits},
-//    };
-//
-//    EXPECT_TRUE(testCircuits<ecc::Q9Shor>(circuitsExpectToPass));
-//    EXPECT_ANY_THROW(testCircuits<ecc::Q9Shor>(circuitsExpectToFail));
-//}
-//
-//TEST_F(DDECCFunctionalityTest, testQ9SurfaceEcc) {
-//    size_t insertNoiseAfterNQubits = 55;
-//
-//    std::vector<TestCase> const circuitsExpectToPass = {
-//            {createIdentityCircuit, true, insertNoiseAfterNQubits},
-//            {createXCircuit, true, insertNoiseAfterNQubits},
-//            {createYCircuit, true, insertNoiseAfterNQubits},
-//            {createHCircuit, true, insertNoiseAfterNQubits},
-//            {createHZCircuit, true, insertNoiseAfterNQubits},
-//    };
-//
-//    std::vector<TestCase> const circuitsExpectToFail = {
-//            {createHTCircuit, true, insertNoiseAfterNQubits},
-//            {createCXCircuit, true, insertNoiseAfterNQubits},
-//            {createCZCircuit, true, insertNoiseAfterNQubits},
-//            {createCYCircuit, true, insertNoiseAfterNQubits},
-//    };
-//
-//    EXPECT_TRUE(testCircuits<ecc::Q9Surface>(circuitsExpectToPass));
-//    EXPECT_ANY_THROW(testCircuits<ecc::Q9Surface>(circuitsExpectToFail));
-//}
-//
-//TEST_F(DDECCFunctionalityTest, testQ18SurfaceEcc) {
-//    size_t insertNoiseAfterNQubits = 47;
-//
-//    std::vector<TestCase> const circuitsExpectToPass{
-//            {createIdentityCircuit, false, insertNoiseAfterNQubits},
-//            {createXCircuit, false, insertNoiseAfterNQubits},
-//            {createYCircuit, false, insertNoiseAfterNQubits},
-//            {createHCircuit, false, insertNoiseAfterNQubits},
-//            {createHZCircuit, false, insertNoiseAfterNQubits},
-//    };
-//
-//    std::vector<TestCase> const circuitsExpectToFail = {
-//            {createHTCircuit, true, insertNoiseAfterNQubits},
-//            {createCXCircuit, true, insertNoiseAfterNQubits},
-//            {createCZCircuit, true, insertNoiseAfterNQubits},
-//            {createCYCircuit, true, insertNoiseAfterNQubits},
-//    };
-//
-//    EXPECT_TRUE(testCircuits<ecc::Q18Surface>(circuitsExpectToPass));
-//    EXPECT_ANY_THROW(testCircuits<ecc::Q18Surface>(circuitsExpectToFail));
-//}
+TEST_F(DDECCFunctionalityTest, testQ3Shor) {
+    size_t insertNoiseAfterNQubits = 4;
+
+    std::vector<TestCase> const circuitsExpectToPass = {
+            {createIdentityCircuit, true, insertNoiseAfterNQubits},
+            {createXCircuit, true, insertNoiseAfterNQubits},
+            {createCXCircuit, true, insertNoiseAfterNQubits * 2},
+            {createCYCircuit, true, insertNoiseAfterNQubits * 2},
+    };
+    std::vector<TestCase> const circuitsExpectToFail = {
+            {createYCircuit, true, insertNoiseAfterNQubits},
+            {createHCircuit, true, insertNoiseAfterNQubits},
+            {createHTCircuit, true, insertNoiseAfterNQubits},
+            {createCZCircuit, true, insertNoiseAfterNQubits},
+            {createHZCircuit, true, insertNoiseAfterNQubits},
+    };
+    EXPECT_TRUE(testCircuits<ecc::Q3Shor>(circuitsExpectToPass));
+    EXPECT_ANY_THROW(testCircuits<ecc::Q3Shor>(circuitsExpectToFail));
+}
+
+TEST_F(DDECCFunctionalityTest, testQ5LaflammeEcc) {
+    size_t insertNoiseAfterNQubits = 61;
+
+    std::vector<TestCase> const circuitsExpectToPass = {
+            {createIdentityCircuit, true, insertNoiseAfterNQubits},
+            {createXCircuit, true, insertNoiseAfterNQubits},
+    };
+    std::vector<TestCase> const circuitsExpectToFail = {
+            {createYCircuit, true, insertNoiseAfterNQubits},
+            {createHCircuit, true, insertNoiseAfterNQubits},
+            {createHTCircuit, true, insertNoiseAfterNQubits},
+            {createHZCircuit, true, insertNoiseAfterNQubits},
+            {createCXCircuit, true, insertNoiseAfterNQubits},
+            {createCZCircuit, true, insertNoiseAfterNQubits},
+            {createCYCircuit, true, insertNoiseAfterNQubits},
+    };
+    EXPECT_TRUE(testCircuits<ecc::Q5Laflamme>(circuitsExpectToPass));
+    EXPECT_ANY_THROW(testCircuits<ecc::Q5Laflamme>(circuitsExpectToFail));
+}
+
+TEST_F(DDECCFunctionalityTest, testQ7Steane) {
+    size_t insertNoiseAfterNQubits = 57;
+
+    std::vector<TestCase> const circuitsExpectToPass = {
+            {createIdentityCircuit, true, insertNoiseAfterNQubits},
+            {createXCircuit, true, insertNoiseAfterNQubits},
+            {createYCircuit, true, insertNoiseAfterNQubits},
+            {createHCircuit, true, insertNoiseAfterNQubits},
+            {createHTCircuit, true, insertNoiseAfterNQubits},
+            {createHZCircuit, true, insertNoiseAfterNQubits},
+            {createCXCircuit, true, insertNoiseAfterNQubits * 2},
+            {createCZCircuit, true, insertNoiseAfterNQubits * 2},
+            {createCYCircuit, true, insertNoiseAfterNQubits * 2},
+    };
+    EXPECT_TRUE(testCircuits<ecc::Q7Steane>(circuitsExpectToPass));
+}
+
+TEST_F(DDECCFunctionalityTest, testQ9ShorEcc) {
+    size_t insertNoiseAfterNQubits = 7;
+
+    std::vector<TestCase> const circuitsExpectToPass = {
+            {createIdentityCircuit, true, insertNoiseAfterNQubits},
+            {createXCircuit, true, insertNoiseAfterNQubits},
+            {createCXCircuit, true, insertNoiseAfterNQubits * 2},
+            {createCYCircuit, true, insertNoiseAfterNQubits * 2},
+    };
+
+    std::vector<TestCase> const circuitsExpectToFail = {
+            {createYCircuit, true, insertNoiseAfterNQubits},
+            {createHCircuit, true, insertNoiseAfterNQubits},
+            {createHTCircuit, true, insertNoiseAfterNQubits},
+            {createHZCircuit, true, insertNoiseAfterNQubits},
+            {createCZCircuit, true, insertNoiseAfterNQubits},
+    };
+
+    EXPECT_TRUE(testCircuits<ecc::Q9Shor>(circuitsExpectToPass));
+    EXPECT_ANY_THROW(testCircuits<ecc::Q9Shor>(circuitsExpectToFail));
+}
+
+TEST_F(DDECCFunctionalityTest, testQ9SurfaceEcc) {
+    size_t insertNoiseAfterNQubits = 55;
+
+    std::vector<TestCase> const circuitsExpectToPass = {
+            {createIdentityCircuit, true, insertNoiseAfterNQubits},
+            {createXCircuit, true, insertNoiseAfterNQubits},
+            {createYCircuit, true, insertNoiseAfterNQubits},
+            {createHCircuit, true, insertNoiseAfterNQubits},
+            {createHZCircuit, true, insertNoiseAfterNQubits},
+    };
+
+    std::vector<TestCase> const circuitsExpectToFail = {
+            {createHTCircuit, true, insertNoiseAfterNQubits},
+            {createCXCircuit, true, insertNoiseAfterNQubits},
+            {createCZCircuit, true, insertNoiseAfterNQubits},
+            {createCYCircuit, true, insertNoiseAfterNQubits},
+    };
+
+    EXPECT_TRUE(testCircuits<ecc::Q9Surface>(circuitsExpectToPass));
+    EXPECT_ANY_THROW(testCircuits<ecc::Q9Surface>(circuitsExpectToFail));
+}
+
+TEST_F(DDECCFunctionalityTest, testQ18SurfaceEcc) {
+    size_t insertNoiseAfterNQubits = 47;
+
+    std::vector<TestCase> const circuitsExpectToPass{
+            {createIdentityCircuit, false, insertNoiseAfterNQubits},
+            {createXCircuit, false, insertNoiseAfterNQubits},
+            {createYCircuit, false, insertNoiseAfterNQubits},
+            {createHCircuit, false, insertNoiseAfterNQubits},
+            {createHZCircuit, false, insertNoiseAfterNQubits},
+    };
+
+    std::vector<TestCase> const circuitsExpectToFail = {
+            {createHTCircuit, true, insertNoiseAfterNQubits},
+            {createCXCircuit, true, insertNoiseAfterNQubits},
+            {createCZCircuit, true, insertNoiseAfterNQubits},
+            {createCYCircuit, true, insertNoiseAfterNQubits},
+    };
+
+    EXPECT_TRUE(testCircuits<ecc::Q18Surface>(circuitsExpectToPass));
+    EXPECT_ANY_THROW(testCircuits<ecc::Q18Surface>(circuitsExpectToFail));
+}
